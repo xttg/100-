@@ -1,4 +1,4 @@
-s=input().split() #sは単語をリスト化した配列
+s=input().split() #sは各単語をリスト化した配列
 
 moji="".join(s) #文章を１つなぎの文字列にする
 a=[]
