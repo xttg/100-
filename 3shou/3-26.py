@@ -8,12 +8,12 @@ text_lines = britain[0].split("\n")
 d = {}
 
 pat = re.compile("\|(.+?)\s=\s*(.+)")
-empha = re.compile("\'{2,5}")
+empha = re.compile("\‘{2,5}(.+?)\’{2,5}")
 
 for line in text_lines:
     ans = re.search(pat, line)
     if ans:
         d[ans[1]] = ans[2]
-    text = re.sub(empha, "", line)
+    text = re.sub(empha, "\\1", line)
     print(text)
 print(d)
