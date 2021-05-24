@@ -20,5 +20,6 @@ for line in text_lines:
         d[ans[1]] = ans[2]
     text = re.sub(empha, "\\1", line)
     text1 = re.sub(link, "\\1")
-    text2 = re.sub(html, "", text1)
+    text2 = re.sub(html, "\\1", text1)
 print(d)
+
