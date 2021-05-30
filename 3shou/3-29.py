@@ -7,7 +7,7 @@ britain = country[country["title"] == "イギリス"]["text"].values
 
 text_lines = britain[0].split("\n")
 
-pat = re.compile("\|(.+?)\s=\s*(.+)")
+pat = re.compile(r"\|(.+?)\s=\s*(.+)")
 
 d = {}
 
@@ -23,7 +23,7 @@ PARAMS = {
     "format": "json",
     "titles": "File:" + d["国旗画像"],
     "prop": "imageinfo",
-    "liprop": "url"
+    "iiprop": "url"
 }
 R = S.get(url=URL, params=PARAMS)
 DATA = R.json()
