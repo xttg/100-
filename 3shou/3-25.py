@@ -5,12 +5,12 @@ britain = country[country["title"] == "イギリス"]["text"].values
 
 text_lines = britain[0].split("\n")
 
-pat = re.compile("\|(.+?)\s=\s*(.+)")
+pat = re.compile(r"\|(.+?)\s=\s*(.+)")
 
-dict = {}
+d = {}
 
 for line in text_lines:
     ans = re.search(pat, line)
     if ans:
-        dict[ans[1]] = ans[2]
-print(dict)
+        d[ans[1]] = ans[2]
+print(d)
