@@ -7,8 +7,8 @@ text_lines = britain[0].split("\n")
 
 d = {}
 
-pat = re.compile("\|(.+?)\s=\s*(.+)")
-empha = re.compile("\‘{2,5}(.+?)\’{2,5}")
+pat = re.compile(r"\|(.+?)\s=\s*(.+)")
+empha = re.compile(r"\'{2,5}(.+?)\'{2,5}")
 
 for line in text_lines:
     ans = re.search(pat, line)
