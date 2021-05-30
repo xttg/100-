@@ -7,9 +7,9 @@ text_lines = britain[0].split("\n")
 
 d = {}
 
-pat = re.compile("\|(.+?)\s=\s*(.+)")
-empha = re.compile("\‘{2,5}(.+?)\’{2,5}")
-link = re.compile("\[\[(.+?)\]\]")
+pat = re.compile(r"\|(.+?)\s=\s*(.+)")
+empha = re.compile(r"\'{2,5}(.+?)\'{2,5}")
+link = re.compile(r"\[\[(.+?)\]\]")
 
 
 for line in text_lines:
