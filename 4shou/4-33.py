@@ -1,7 +1,7 @@
 import MeCab
 with open("neko.txt.mecab", "r") as f:
     l = []
-    noun = []
+    noun = set()
     for line in f:
         if line == "EOS\n":
             continue
@@ -14,6 +14,6 @@ with open("neko.txt.mecab", "r") as f:
             l.append(d)
     for i in range(1, len(l)-1):
         if l[i-1]["pos"] == "名詞" and l[i]["surface"] == "の" and l[i+1]["pos"] == "名詞":
-            noun.append(l[i-1]["surface"]+l[i]
-                        ["surface"]+l[i+1]["surface"])
+            noun.add(l[i-1]["surface"]+l[i]
+                     ["surface"]+l[i+1]["surface"])
     print(noun)
