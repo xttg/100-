@@ -9,6 +9,6 @@ with open("neko.txt.mecab", "r") as f:
             if len(l1) != 2:
                 continue
             l2 = l1[1].split(",")
-            d = {"surface": l1[0], "base": l2[0], "pos": l2[1], "pos1": l2[2]}
+            d = {"surface": l1[0], "base": l2[6], "pos": l2[0], "pos1": l2[1]}
             l.append(d)
     print(l)
