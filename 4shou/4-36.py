@@ -6,7 +6,7 @@ with open("neko.txt.mecab", "r") as f:
     l = []
     v = set()
     for line in f:
-        if line == "EOS\n" or line == " ":
+        if line == "EOS\n":
             continue
         else:
             l1 = line.split("\t")
