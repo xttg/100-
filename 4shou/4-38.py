@@ -18,6 +18,5 @@ with open("neko.txt.mecab", "r") as f:
             l.append(d)
     surface = [x["surface"] for x in l]
     c = Counter(surface)
-    print(max(c.values()))
     plt.hist(c.values(),  range=(1, 100))
     plt.show()
