@@ -1,6 +1,7 @@
 from collections import Counter
 import MeCab
 import matplotlib.pyplot as plt
+plt.rcParams['font.family'] = 'AppleGothic'
 
 with open("neko.txt.mecab", "r") as f:
     l = []
