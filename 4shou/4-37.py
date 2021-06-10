@@ -1,38 +1,40 @@
 from collections import Counter
+import MeCab
 import matplotlib.pyplot as plt
 plt.rcParams['font.family'] = 'AppleGothic'
 
-with open('neko.txt.mecab', "r") as f:
-    text = f.read().split('\n')
-result = []
-tmp_cooccurrence = []
-cooccurrence = []
-inCat = False
+with open("neko.txt.mecab", "r") as f:
+    l = []
+    v = set()
+    tmp = []
+    kyouki = []
+    cat = False
 
-for line in text[::-1]:
-    if line == 'EOS':
-        if inCat:
-            cooccurrence.extend(tmp_cooccurrence)
+    for line in f:
+        if line == "EOS\n":
+            if cat:
+                kyouki.extend(tmp)
+            else:
+                pass
+            tmp = []
+            cat = False
+            continue
         else:
-            pass
-        tmp_cooccurrence = []
-        inCat = False
-        continue
+            l1 = line.split("\t")
+            if len(l1) != 2:
+                continue
+            l2 = l1[1].split(",")
+            d = {"surface": l1[0], "base": l2[6], "pos": l2[0], "pos1": l2[1]}
+            l.append(d)
 
-    ls = line.split('\t')
-    d = {}
-    if len(ls) != 2:
-        continue
-    tmp = ls[1].split(',')
-    d = {'surface': ls[0], 'base': tmp[6], 'pos': tmp[0], 'pos1': tmp[1]}
-    result.append(d)
-    if ls[0] != '猫':
-        tmp_cooccurrence.append(ls[0])
-    else:
-        inCat = True
+        if l1[0] != "猫":
+            tmp.append(l1[0])
+        else:
+            cat = True
 
-
-c = Counter(cooccurrence)
-target = list(zip(*c.most_common(10)))
-plt.bar(*target)
-plt.show()
+    c = Counter(kyouki)
+    target = list(zip(*c.most_common(10)))
+    x = list(target[0])
+    y = list(target[1])
+    plt.bar(x, y)
+    plt.show()
