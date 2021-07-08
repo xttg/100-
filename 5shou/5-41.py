@@ -24,12 +24,10 @@ class Chunk:
         print("morphs:", morphs)
 
     def show_chunk_id(self):
-        print("==========")
         print("chunk_id:", self.chunk_id)
 
     def show_sentence_id(self):
         if (self.chunk_id == 0):
-            print("====================")
             print("sentence_id:", self.sentence_id)
 
     def show_dst(self):
