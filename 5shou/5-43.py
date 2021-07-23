@@ -91,7 +91,7 @@ for chunk in chunks:
             chunk.verb = True
         elif morph.pos == "名詞":
             chunk.noun = True
-    sentences[chunk.sentence_id].append(morphs)
+    sentences[chunk.sentence_id].append(chunk)
 
 dsts = [[] for _ in range(len(chunks))]
 for chunk in chunks:
@@ -105,7 +105,7 @@ for i, (sen, dst) in enumerate(zip(sentences, dsts)):
         d = dst.surfaces
         s = s.replace("　", "").replace("。", "").replace("、", "")
         d = d.replace("　", "").replace("。", "").replace("、", "")
+        x = [s, d]
         if s == d:
             continue
-        x = [s, d]
         print("\t".join(x))
