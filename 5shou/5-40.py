@@ -27,5 +27,6 @@ with open("ai.ja.txt.parsed") as f:
                 tmp = l1[1].split(',')
                 morph = Morph(l1[0], tmp[6], tmp[0], tmp[1])
                 morphs.append(morph)
-    for x in result[2]:
+    result1 = [x for x in result if len(x) != 0]
+    for x in result1[1]:
         x.show()
