@@ -59,8 +59,8 @@ chunk = None
 sentence_id = 0
 chunk_id = 0
 
-for line in text[:-1]:
-    if line == 'EOS':
+for i, line in enumerate(text[:-1]):
+    if line == 'EOS' and text[i-1] != 'EOS':
         result.append(morphs)
         morphs = []
         sentence_id += 1
@@ -82,6 +82,8 @@ for line in text[:-1]:
     else:
         ls = line.split('\t')
         d = {}
+        if len(ls) != 2:
+            continue
         tmp = ls[1].split(',')
         morph = Morph(ls[0], tmp[6], tmp[0], tmp[1])
         morphs.append(morph)
