@@ -122,6 +122,6 @@ with open('45.txt', mode='w') as f:
                 old = dic.get(d.first_verb, [])  # valueが存在しない場合は[]を返す
                 dic[d.first_verb] = old + s.particle
 
-        for k, v in dic.items():
-            output = k+'\t'+" ".join(sorted(v))+'\n'
+        for k, v in dic.items():  # dict.items()にループを行うことでkeyとvalueを取得できる
+            output = k+'\t'+" ".join(sorted(v))+'\n'  # joinの際にスペースを挟む
             f.write(output)
