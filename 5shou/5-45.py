@@ -1,5 +1,4 @@
 import itertools
-import pydot
 
 
 class Morph:
@@ -20,9 +19,12 @@ class Chunk:
         self.morphs = []
         self.dst = dst
         self.srcs = srcs
-        self.noun = False
-        self.verb = False
-        self.surfaces = ""
+        self.has_noun = False
+        self.has_verb = False
+        self.has_particle = False
+        self.surfaces = ''
+        self.first_verb = None
+        self.particle = []
 
     def show_morphs(self):
         morphs = ''
@@ -31,10 +33,12 @@ class Chunk:
         print("morphs:", morphs)
 
     def show_chunk_id(self):
+        print("==========")
         print("chunk_id:", self.chunk_id)
 
     def show_sentence_id(self):
         if (self.chunk_id == 0):
+            print("====================")
             print("sentence_id:", self.sentence_id)
 
     def show_dst(self):
@@ -44,7 +48,8 @@ class Chunk:
         print("srcs:", self.srcs[self.chunk_id])
 
 
-with open('ai.ja.txt.parsed') as f:
+path = 'ai.ja.txt.parsed'
+with open(path) as f:
     text = f.read().split('\n')
 result = []
 morphs = []
@@ -54,21 +59,21 @@ chunk = None
 sentence_id = 0
 chunk_id = 0
 
-for i, line in enumerate(text[:-1]):
-    if line == 'EOS' and text[i-1] != 'EOS':  # 文の区切り
+for line in text[:-1]:
+    if line == 'EOS':
         result.append(morphs)
         morphs = []
         sentence_id += 1
         chunk_id = 0
         srcs = [[]]
 
-    elif line[0] == '*':  # 文節の区切り
+    elif line[0] == '*':
         if chunk:
             chunks.append(chunk)
         dst = int(line.split()[2][:-1])
-        ind = dst + 1 - len(srcs)
-        ex = [[] for _ in range(ind)]
-        srcs.extend(ex)  # 係り先のインデックスと現在ある配列のインデックスから足りない個数分の空リストをextendする
+        diff = dst + 1 - len(srcs)
+        ex = [[] for _ in range(diff)]
+        srcs.extend(ex)
         if dst != -1:
             srcs[dst].append(chunk_id)
         chunk = Chunk(sentence_id, chunk_id, dst, srcs)
@@ -76,27 +81,44 @@ for i, line in enumerate(text[:-1]):
 
     else:
         ls = line.split('\t')
-        if len(ls) != 2:
-            continue
+        d = {}
         tmp = ls[1].split(',')
         morph = Morph(ls[0], tmp[6], tmp[0], tmp[1])
         morphs.append(morph)
         chunk.morphs.append(morph)
-chunks.append(chunk)
+
+else:
+    chunks.append(chunk)
 
 sentences = [[] for _ in range(len(chunks))]
-for chunk in chunks:  # chunksは文節の配列
-    for morph in chunk.morphs:  # 文節中の各単語のmorphクラスについて調べている
+for chunk in chunks:
+    for morph in chunk.morphs:
         chunk.surfaces += morph.surface
-    # sentencesは文章の配列。対応する文番号の箱に文節（chunk)を入れている
+        if morph.pos == '動詞':
+            if chunk.has_verb == False:
+                chunk.first_verb = morph.base
+            chunk.has_verb = True
+        elif morph.pos == '名詞':
+            chunk.has_noun = True
+        elif morph.pos == '助詞':
+            chunk.has_particle = True
+            chunk.particle.append(morph.surface)
+
     sentences[chunk.sentence_id].append(chunk)
-graph = pydot.Dot(graph_type='digraph')  # 無向グラフを指定したければ(graph_type='graph')とする
-nodes = []
-for chunk in sentences[7]:  # 例として8番目の文章を使う
-    node = pydot.Node(chunk.surfaces)
-    graph.add_node(node)
-    nodes.append((node, chunk.dst))
-for node, dst in nodes:
-    if dst != -1:
-        graph.add_edge(pydot.Edge(node, nodes[dst][0]))
-graph.write_png('output44.png')
+
+dsts = [[] for _ in range(len(chunks))]
+for chunk in chunks:
+    dst = sentences[chunk.sentence_id][chunk.dst]
+    dsts[chunk.sentence_id].append(dst)
+
+with open('45.txt', mode='w') as f:
+    for i, (sentence, dst) in enumerate(zip(sentences, dsts)):
+        dic = {}
+        for s, d in zip(sentence, dst):
+            if s.particle and d.first_verb:
+                old = dic.get(d.first_verb, [])
+                dic[d.first_verb] = old + s.particle
+
+        for k, v in dic.items():
+            output = k+'\t'+" ".join(sorted(v))+'\n'
+            f.write(output)
