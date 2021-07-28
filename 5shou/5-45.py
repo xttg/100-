@@ -89,36 +89,37 @@ for i, line in enumerate(text[:-1]):
         morphs.append(morph)
         chunk.morphs.append(morph)
 
-else:
-    chunks.append(chunk)
+chunks.append(chunk)
 
 sentences = [[] for _ in range(len(chunks))]
-for chunk in chunks:
+for chunk in chunks:  # 文節を表すchunkクラスの集合
     for morph in chunk.morphs:
         chunk.surfaces += morph.surface
         if morph.pos == '動詞':
-            if chunk.has_verb == False:
+            if chunk.has_verb == False:  # ２つのif文で最左の動詞を見つけ、それをfirst_verbに入れる
                 chunk.first_verb = morph.base
             chunk.has_verb = True
         elif morph.pos == '名詞':
             chunk.has_noun = True
         elif morph.pos == '助詞':
             chunk.has_particle = True
-            chunk.particle.append(morph.surface)
+            chunk.particle.append(morph.surface)  # 助詞は最後に表示させるために配列に格納
 
+    # sentences[3]には4番目の文章中の各文節のchunkクラスが格納されている。２次元配列
     sentences[chunk.sentence_id].append(chunk)
 
 dsts = [[] for _ in range(len(chunks))]
 for chunk in chunks:
-    dst = sentences[chunk.sentence_id][chunk.dst]
+    dst = sentences[chunk.sentence_id][chunk.dst]  # ある文節の係り先の文節のchunkクラス
+    # dsts[i][3]ではi番目の文章の4番目の文節の係り先の文節のchunkクラスが格納されている。２次元配列
     dsts[chunk.sentence_id].append(dst)
 
 with open('45.txt', mode='w') as f:
-    for i, (sentence, dst) in enumerate(zip(sentences, dsts)):
+    for i, (sentence, dst) in enumerate(zip(sentences, dsts)):  # sentence,dstは１つの文中の文節のchunkクラスが入った配列
         dic = {}
-        for s, d in zip(sentence, dst):
-            if s.particle and d.first_verb:
-                old = dic.get(d.first_verb, [])
+        for s, d in zip(sentence, dst):  # s,dは文章中の文節のchunkクラス
+            if s.particle and d.first_verb:  # sが係り元、dが係り先のchunkクラス。係り元が助詞で係り先が最左の動詞かどうか確認
+                old = dic.get(d.first_verb, [])  # valueが存在しない場合は[]を返す
                 dic[d.first_verb] = old + s.particle
 
         for k, v in dic.items():
