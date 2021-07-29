@@ -127,8 +127,10 @@ with open('46.txt', mode='w') as f:
                     dic[d.first_verb] = old + [[p, surfaces]]
 
         for k, v in dic.items():  # dict.items()にループを行うことでkeyとvalueを取得できる
-            ls = sorted(v)
+            ls = sorted(v)  # vは2次元配列。２次元配列の場合は先頭要素でソートされる
+            print(*ls)
+            # lsをアンパックして[[p,surfaces]]->[(p),(surfaces)]->[[p],[surfaces]]
             ls = list(zip(*ls))
             output = k+'\t'+" ".join(ls[0])+'\t' + \
-                " ".join(ls[1])+'\n'  # joinの際にスペースを挟む
+                " ".join(ls[1])+'\n'  # 述語 格の集合　項の集合
             f.write(output)
