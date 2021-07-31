@@ -116,7 +116,7 @@ def rec(sentence, d, ans):
         return rec(sentence, sentence[d][1], ans+'->'+sentence[d][0])
 
 
-def get_path(d, ls):
+def get_path(d, ls):  # 係り先の番号と現在のパス（番号の配列）から次の係り先番号を追加して返す
     ls += [d]
     if d == -1:
         return ls
@@ -144,8 +144,8 @@ with open('49.txt', mode='w') as f:
         for j, (s, d, has_noun, first_noun) in enumerate(sentence):
             if has_noun:
                 ans = rec(sentence, d, s)
-                ans = ans.replace("　", "").replace("。", "").replace("、", "")
-                ls_path.append(get_path(d, [j]))
+                ans = re.sub('、|。|・', '', ans)
+                ls_path.append(get_path(d, [j]))  # appendでls_pathが２次元配列になる
 
         for pi, pj in itertools.combinations(ls_path, 2):
             for ni in pi:
@@ -163,7 +163,7 @@ with open('49.txt', mode='w') as f:
                 ans += 'Y'
             else:
                 ans += sentence[match][0]
-            ans = ans.replace("　", "").replace("。", "").replace("、", "")
+            ans = re.sub('、|。|・', '', ans)
 
             print(ans)
             f.write(ans+'\n')
