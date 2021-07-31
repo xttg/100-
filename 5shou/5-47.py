@@ -101,7 +101,8 @@ for chunk in chunks:  # 文節を表すchunkクラスの集合
     for morph in chunk.morphs:
         chunk.surfaces += morph.surface
         if morph.pos == '動詞':
-            if chunk.has_verb == False and sahen_wo:  # ２つのif文で最左の動詞を見つけ、それをfirst_verbに入れる
+            # ２つのif文で(サ変接続名詞+"を"+最左の動詞)を見つけ、それをfirst_verbに入れる
+            if chunk.has_verb == False and sahen_wo:
                 chunk.first_verb = sahen_wo + morph.base
                 sahen_wo = None
             chunk.has_verb = True
