@@ -119,5 +119,4 @@ with open('48.txt', mode='w') as f:
             if has_noun:
                 ans = rec(sentence, d, s)
                 ans = re.sub('、|。|・', '', ans)
-                print(ans)
                 f.write(ans+'\n')
