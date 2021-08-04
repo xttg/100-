@@ -11,6 +11,6 @@ X_train = vectorizer.fit_transform(train_df['TITLE'])
 X_valid = vectorizer.transform(valid_df['TITLE'])
 X_test = vectorizer.transform(test_df['TITLE'])
 np.savetxt('feature/train.feature.txt',
-           X_train.toarray(), fmt='%d')  # スパース行列から密行列に変換
+           X_train.toarray(), fmt='%d')  # スパース行列
 np.savetxt('feature/valid.feature.txt', X_valid.toarray(), fmt='%d')
 np.savetxt('feature/test.feature.txt', X_test.toarray(), fmt='%d')
