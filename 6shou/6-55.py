@@ -3,6 +3,7 @@ from sklearn.metrics import accuracy_score
 import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
 import numpy as np
+from sklearn.metrics import confusion_matrix
 vectorizer = CountVectorizer()
 
 train_df = pd.read_csv("feature/train.txt", sep='\t', header=0)
@@ -34,5 +35,5 @@ y_test_pred = clf.predict(X_test)  # モデルの予測したカテゴリ
 y_train = train_df['CATEGORY']
 y_test = test_df['CATEGORY']
 
-print(accuracy_score(y_train, y_train_pred))
-print(accuracy_score(y_test, y_test_pred))
+print(confusion_matrix(y_train, y_train_pred, labels=['b', 't', 'e', 'm']))
+print(confusion_matrix(y_test, y_test_pred, labels=['b', 't', 'e', 'm']))
