@@ -1,3 +1,7 @@
+
+from sklearn.metrics import precision_score
+from sklearn.metrics import recall_score
+from sklearn.metrics import f1_score
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 import pandas as pd
@@ -35,5 +39,21 @@ y_test_pred = clf.predict(X_test)  # モデルの予測したカテゴリ
 y_train = train_df['CATEGORY']
 y_test = test_df['CATEGORY']
 
-print(confusion_matrix(y_train, y_train_pred, labels=['b', 't', 'e', 'm']))
-print(confusion_matrix(y_test, y_test_pred, labels=['b', 't', 'e', 'm']))
+print(precision_score(y_test, y_test_pred,
+      average=None, labels=['b', 't', 'e', 'm']))
+print(recall_score(y_test, y_test_pred,
+      average=None, labels=['b', 't', 'e', 'm']))
+
+print(f1_score(y_test, y_test_pred, average=None, labels=['b', 't', 'e', 'm']))
+print(precision_score(y_test, y_test_pred,
+      average='micro', labels=['b', 't', 'e', 'm']))
+print(recall_score(y_test, y_test_pred,
+      average='micro', labels=['b', 't', 'e', 'm']))
+print(f1_score(y_test, y_test_pred,
+      average='micro', labels=['b', 't', 'e', 'm']))
+print(precision_score(y_test, y_test_pred,
+      average='macro', labels=['b', 't', 'e', 'm']))
+print(recall_score(y_test, y_test_pred,
+      average='macro', labels=['b', 't', 'e', 'm']))
+print(f1_score(y_test, y_test_pred,
+      average='macro', labels=['b', 't', 'e', 'm']))
