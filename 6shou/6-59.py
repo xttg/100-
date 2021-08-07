@@ -72,7 +72,7 @@ for c, s, w in itertools.product(C, solver, class_weight):
     # scores->[train_score,valid_score,test_score]のリスト
     scores = calc_scores(c, s, w)
     print(scores)
-    if scores[1] > max_valid_score:
+    if scores[1] > max_valid_score:  # validデータの正解率が高ければbest_scoreを更新
         max_valid_score = scores[1]
         best_parameter = [c, s, w]
         best_scores = scores

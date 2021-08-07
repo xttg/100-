@@ -3,7 +3,7 @@ from sklearn.model_selection import train_test_split
 from functools import reduce
 # 2. 事例の抽出
 news_corpora = pd.read_csv(
-    'NewsAggregatorDataset/newsCorpora.csv', sep='\t', header=None)
+    'Dataset/newsCorpora.csv', sep='\t', header=None)
 news_corpora.columns = ['ID', 'TITLE', 'URL', 'PUBLISHER',
                         'CATEGORY', 'STORY', 'HOSTNAME', 'TIMESTAMP']
 
