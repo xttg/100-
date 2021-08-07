@@ -37,7 +37,7 @@ y_train_pred = clf.predict(X_train)
 y_test_pred = clf.predict(X_test)  # モデルの予測したカテゴリ
 
 y_train = train_df['CATEGORY']
-y_test = test_df['CATEGORY']
+y_test = test_df['CATEGORY']  # 正解ラベル
 
 print(precision_score(y_test, y_test_pred,
       average=None, labels=['b', 't', 'e', 'm']))
