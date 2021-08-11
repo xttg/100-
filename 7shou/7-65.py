@@ -10,5 +10,5 @@ for question in questions:
     if len(words) == 6:
         cnt += 1
         if (words[3] == words[4]):
-            ok += 1
+            ok += 1  # 推測と正解が一致している場合、インクリメントする
 print(ok/cnt)
